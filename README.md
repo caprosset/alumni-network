@@ -173,7 +173,7 @@ Event model
 
 ```javascript
  {
-  author: [{  type: mongoose.Schema.Types.ObjectId, ref: "User "}, required: true],
+  author: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: true},
   title: {type: String, required: true},  
   description: {type: String, required: true},
   date: {type: Date, required: true},
@@ -181,7 +181,7 @@ Event model
   bootcamp: {type: String, enum: [ "Web Development", "UX Design", "Data Analytics" ], required: true},
   streetAddress: {type: String, required: true},
   city: {type: String, enum: [ "Madrid", "Barcelona", "Lisbon", "Amsterdam", "Paris", "Berlin", "Mexico City", "Sao Paulo", "Miami" ], required: true},
-  eventURL: {type: String, required: true},
+  eventURL: {type: String, required: true}
  }
 ``` 
 
@@ -189,7 +189,7 @@ JobOffer model
 
 ```javascript
 {
-  author: [{  type: mongoose.Schema.Types.ObjectId, ref: "User "}, required: true],
+  author: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: true},
   dateOfPublication: {type: String, required: true},
   title: {type: String, required: true},
   description: {type: String, required: true},
@@ -197,7 +197,13 @@ JobOffer model
   companyLogo: {type: String},
   bootcamp: {type: String, enum: [ "Web Development", "UX Design", "Data Analytics" ], required: true},
   city: {type: String, enum: [ "Madrid", "Barcelona", "Lisbon", "Amsterdam", "Paris", "Berlin", "Mexico City", "Sao Paulo", "Miami" ], required: true},
-  jobOfferUrl: str{type: String, required: true},ing
+  jobOfferUrl: {type: String, required: true}
+}, 
+{
+  timestamps: {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  },
 }
 ```
 
