@@ -215,8 +215,8 @@ JobOffer model
 | GET         | `/alumni/:id`                 | {id}                         |                |              | Show specific alumni                                     |
 | PUT         | `/alumni/edit/:id`            | {firstName,lastName,phone,profilePicture,currentCity,currentRole,linkedinUrl,githubUrl,mediumUrl}           | 200            | 400          | edit alumni                                              |
 | DELETE      | `/alumni/delete/:id`     | {id}                         | 201            | 400          | delete specific alumni                                            |
-| POST        | `/alumni/:id/savejob/:jobId`             | {id} |                |              | save job offer                                                     |
-| POST        | `/alumni/:id/saveevent/:eventId`             | {id} |                |              | save job offer                                                     |
+| PUT        | `/alumni/:id/save-job/:jobId`             | {id} |                |              | save job offer in alumni profile                                                    |
+| PUT        | `/alumni/:id/save-event/:eventId`             | {id} |                |              | save event in alumni profile                                                    |
 | GET         | `/jobs`                    |                              |                | 400          | show jobs offers                                                 |
 | GET         | `/jobs/:id`                | {id}                         |                |              | show specific job offer                                         |
 | POST        | `/jobs/create`         | {author,title,description,dateOfPublication,companyName,companyLogo,bootcamp,city,jobOfferUrl}      | 200            | 404          | add job offer                                                   |
