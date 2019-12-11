@@ -163,7 +163,7 @@ User model
   mediumUrl: {type: String},
   savedEvents: [{  type: mongoose.Schema.Types.ObjectId, ref: "Event"}],
   savedJobs: [{  type: mongoose.Schema.Types.ObjectId, ref: "JobOffer"}],
-  isAdmin: boolean,
+  isAdmin: { type: Boolean, default: false },
   publishedEvents: [{  type: mongoose.Schema.Types.ObjectId, ref: "Event"}],
   publishedJobOffers: [{  type: mongoose.Schema.Types.ObjectId, ref: "JobOffer"}]
 }
