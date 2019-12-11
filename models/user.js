@@ -18,7 +18,7 @@ const userSchema = new Schema({
   mediumUrl: {type: String},
   savedEvents: [{  type: Schema.Types.ObjectId, ref: "Event"}],
   savedJobs: [{  type: Schema.Types.ObjectId, ref: "JobOffer"}],
-  isAdmin: { type: Boolean, default: false },
+  isAdmin: { type: Boolean, required: true, default: false },
   publishedEvents: [{  type: Schema.Types.ObjectId, ref: "Event"}],
   publishedJobOffers: [{  type: Schema.Types.ObjectId, ref: "JobOffer"}]
 });

@@ -10,9 +10,16 @@ exports.isNotLoggedIn = (req, res, next) => {
   else next(createError(403));
 };
 
-exports.validationLoggin = (req, res, next) => {
-  const { username, password } = req.body;
+exports.validationSignup = (req, res, next) => {
+  const { firstName, lastName, email, password, bootcamp, campus, cohort, isAdmin } = req.body;
 
-  if (!username || !password) next(createError(400));
+  if (!firstName || !lastName || !email || !password || !bootcamp || !campus || !cohort || !isAdmin) next(createError(400));
+  else next();
+};
+
+exports.validationLogin = (req, res, next) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) next(createError(400));
   else next();
 };

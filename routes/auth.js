@@ -9,32 +9,41 @@ const User = require('../models/user');
 const {
   isLoggedIn,
   isNotLoggedIn,
-  validationLoggin,
+  validationSignup,
+  validationLogin
 } = require('../helpers/middlewares');
 
-//  GET    '/me'
+
+//  GET '/me'
 router.get('/me', isLoggedIn, (req, res, next) => {
+  // avoid sending back the current user password
   req.session.currentUser.password = '*';
+
+  // send the response with user info 
   res.json(req.session.currentUser);
 });
 
-//  POST    '/signup'
+
+//  POST  '/signup'
 router.post(
   '/signup',
   isNotLoggedIn,
-  validationLoggin,
+  validationSignup,
   async (req, res, next) => {
-    const { username, password } = req.body;
+    const { firstName, lastName, email, password, bootcamp, campus, cohort, isAdmin } = req.body;
 
     try {
-      // projection
-      const usernameExists = await User.findOne({ username }, 'username');
+      // check if `email` already exists in the DB
+      const emailExists = await User.findOne({ email }, 'email'); // return only the property 'email' of the user object (projection)
 
-      if (usernameExists) return next(createError(400));
+      if (emailExists) return next(createError(400));
       else {
         const salt = bcrypt.genSaltSync(saltRounds);
         const hashPass = bcrypt.hashSync(password, salt);
-        const newUser = await User.create({ username, password: hashPass });
+
+        const newUser = await User.create({ firstName, lastName, email, password: hashPass, bootcamp, campus, cohort, isAdmin });
+      
+        // assign the newly created user to the session current user
         req.session.currentUser = newUser;
         res
           .status(200) //  OK
@@ -46,19 +55,26 @@ router.post(
   },
 );
 
+
 //  POST    '/login'
 router.post(
   '/login',
   isNotLoggedIn,
-  validationLoggin,
+  validationLogin,
   async (req, res, next) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
     try {
-      const user = await User.findOne({ username });
+      //check if user exists in the DB
+      const user = await User.findOne({ email });
+
+      // if user doesn't exist - forward the error to the error middleware using `next()`
       if (!user) {
         next(createError(404));
-      } else if (bcrypt.compareSync(password, user.password)) {
+      } // if user exists and if password is the same as the one in the DB
+      else if (bcrypt.compareSync(password, user.password)) {
+        // assign the user document to `req.session.currentUser` 
         req.session.currentUser = user;
+        // send json response
         res.status(200).json(user);
         return;
       } else {
@@ -70,21 +86,24 @@ router.post(
   },
 );
 
-//  POST    '/logout'
+
+//  POST  '/logout'
 router.post('/logout', isLoggedIn, (req, res, next) => {
-  const { username } = req.session.currentUser;
+  const { firstName, lastName } = req.session.currentUser;
   req.session.destroy();
   res
     .status(200) //  No Content
-    .json({ message: `User '${username}' logged out - session destroyed` });
+    .json({ message: `User '${firstName} ${lastName}' logged out - session destroyed` });
   return;
 });
 
-//  GET    '/private'   --> Only for testing - Same as /me but it returns a message instead
-router.get('/private', isLoggedIn, (req, res, next) => {
-  res
-    .status(200) // OK
-    .json({ message: 'Test - User is logged in' });
-});
+
+//  GET '/private'   --> Only for testing - Same as /me but it returns a message instead
+// router.get('/private', isLoggedIn, (req, res, next) => {
+//   res
+//     .status(200) // OK
+//     .json({ message: 'Test - User is logged in' });
+// });
+
 
 module.exports = router;
