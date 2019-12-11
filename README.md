@@ -213,16 +213,16 @@ JobOffer model
 
 | HTTP Method | URL                         | Request Body                 | Success status | Error Status | Description                                                  |
 | ----------- | --------------------------- | ---------------------------- | -------------- | ------------ | ------------------------------------------------------------ |
-| GET         | `/auth/profile    `           | Saved session                | 200            | 404          | Check if user is logged in and return profile page           |
+| GET         | `/auth/me    `           | Saved session                | 200            | 404          | Check if user is logged in and return profile page           |
 | POST        | `/auth/signup`                | {firstName,lastName,email,password,bootcamp,campus,cohort}      | 201            | 404          | Checks if fields not empty (422) and user not exists (409), then create user with encrypted password, and store user in session |
 | POST        | `/auth/login`                 | {username, password}         | 200            | 401          | Checks if fields not empty (422), if user exists (404), and if password matches (404), then stores user in session |
 | POST        | `/auth/logout`                | (empty)                      | 204            | 400          | Logs out the user                                            |
-| GET         | `/alumni`                     |                              |                | 400          | Show all alumni                                         |
-| GET         | `/alumni/:id`                 | {id}                         |                |              | Show specific alumni                                     |
-| PUT         | `/alumni/edit/:id`            | {firstName,lastName,phone,profilePicture,currentCity,currentRole,linkedinUrl,githubUrl,mediumUrl}           | 200            | 400          | edit alumni                                              |
-| DELETE      | `/alumni/delete/:id`     | {id}                         | 201            | 400          | delete specific alumni                                            |
-| PUT        | `/alumni/:id/save-job/:jobId`             | {id} |                |              | save job offer in alumni profile                                                    |
-| PUT        | `/alumni/:id/save-event/:eventId`             | {id} |                |              | save event in alumni profile                                                    |
+| GET         | `/user`                     |                              | 200              | 400          | Show all alumni                                         |
+| GET         | `/user/:id`                 | {id}                         | 200                | 400             | Show specific alumni                                     |
+| PUT         | `/user/edit/:id`            | {firstName,lastName,phone,profilePicture,currentCity,currentRole,linkedinUrl,githubUrl,mediumUrl}           | 200            | 400          | edit alumni                                              |
+| DELETE      | `/user/delete/:id`     | {id}                         | 201            | 400          | delete specific alumni                                            |
+| PUT        | `/user/:id/save-job/:jobId`             | {id} |                |              | save job offer in alumni profile                                                    |
+| PUT        | `/user/:id/save-event/:eventId`             | {id} |                |              | save event in alumni profile                                                    |
 | GET         | `/jobs`                    |                              |                | 400          | show jobs offers                                                 |
 | GET         | `/jobs/:id`                | {id}                         |                |              | show specific job offer                                         |
 | POST        | `/jobs/create`         | {author,title,description,dateOfPublication,companyName,companyLogo,bootcamp,city,jobOfferUrl}      | 200            | 404          | add job offer                                                   |

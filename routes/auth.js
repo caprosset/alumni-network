@@ -41,7 +41,7 @@ router.post(
         const salt = bcrypt.genSaltSync(saltRounds);
         const hashPass = bcrypt.hashSync(password, salt);
 
-        const newUser = await User.create({ firstName, lastName, email, password: hashPass, bootcamp, campus, cohort, isAdmin });
+        const newUser = await User.create({ firstName, lastName, email, password: hashPass, bootcamp, campus, cohort, isAdmin, phone: '', profilePicture: '', currentCity: '', currentRole: '', linkedinUrl: '', githubUrl: '', mediumUrl: '' });
       
         // assign the newly created user to the session current user
         req.session.currentUser = newUser;

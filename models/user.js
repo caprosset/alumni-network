@@ -16,11 +16,11 @@ const userSchema = new Schema({
   linkedinUrl: {type: String},
   githubUrl: {type: String},
   mediumUrl: {type: String},
-  savedEvents: [{  type: Schema.Types.ObjectId, ref: "Event"}],
-  savedJobs: [{  type: Schema.Types.ObjectId, ref: "JobOffer"}],
+  savedEvents: [{  type: mongoose.Schema.Types.ObjectId, ref: "Event"}],
+  savedJobs: [{  type: mongoose.Schema.Types.ObjectId, ref: "JobOffer"}],
   isAdmin: { type: Boolean, required: true, default: false },
-  publishedEvents: [{  type: Schema.Types.ObjectId, ref: "Event"}],
-  publishedJobOffers: [{  type: Schema.Types.ObjectId, ref: "JobOffer"}]
+  publishedEvents: [{  type: mongoose.Schema.Types.ObjectId, ref: "Event"}],
+  publishedJobOffers: [{  type: mongoose.Schema.Types.ObjectId, ref: "JobOffer"}]
 });
 
 const User = mongoose.model('User', userSchema);
