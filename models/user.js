@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const JobOffer = require('./JobOffer');
 
 const userSchema = new Schema({
   firstName: {type: String, required: true},
@@ -17,10 +16,10 @@ const userSchema = new Schema({
   linkedinUrl: {type: String},
   githubUrl: {type: String},
   mediumUrl: {type: String},
-  // savedEvents: [{  type: Schema.Types.ObjectId, ref: "Event"}],
+  savedEvents: [{  type: Schema.Types.ObjectId, ref: "Event"}],
   savedJobs: [{  type: Schema.Types.ObjectId, ref: "JobOffer"}],
   isAdmin: { type: Boolean, default: false },
-  // publishedEvents: [{  type: Schema.Types.ObjectId, ref: "Event"}],
+  publishedEvents: [{  type: Schema.Types.ObjectId, ref: "Event"}],
   publishedJobOffers: [{  type: Schema.Types.ObjectId, ref: "JobOffer"}]
 });
 
