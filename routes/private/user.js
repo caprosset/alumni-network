@@ -5,14 +5,8 @@ const mongoose = require('mongoose');
 
 const User = require('../../models/user');
 
-
 // HELPER FUNCTIONS
-const {
-  isLoggedIn,
-  isNotLoggedIn,
-  validationSignup,
-  validationLogin
-} = require('../../helpers/middlewares');
+const { validationSignup} = require('../../helpers/middlewares');
 
 
 // GET	/user	===> Show all users 
@@ -68,8 +62,9 @@ router.put('/edit/:id', validationSignup, async (req, res, next) => {
     // console.log('PARAM ID', id);
     // console.log('CURRENT USER ID', req.session.currentUser._id);
 
+    // check if the user being edited corresponds to the user logged in
     if ( id !== req.session.currentUser._id ) {
-      res.status(401).json({ message: 'Unauthorized'}); 
+      res.status(401).json({ message: 'Unauthorized id'}); 
       return;
     }
 
@@ -112,7 +107,7 @@ router.put('/:id/save-job/:jobId', async(req, res, next) => {
 
 
 // PUT	/user/:id/save-event/:eventId	===> save event in alumni profile
-router.put('/:id/save-event/:eventId', isLoggedIn, async(req, res, next) => {
+router.put('/:id/save-event/:eventId', async(req, res, next) => {
   try {
     const { id, eventId } = req.params;
     // console.log('PARAMS', id, eventId);
