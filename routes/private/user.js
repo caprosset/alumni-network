@@ -4,6 +4,7 @@ const createError = require('http-errors');
 const mongoose = require('mongoose');
 
 const User = require('../../models/user');
+const Event = require('../../models/event');
 
 // HELPER FUNCTIONS
 const { validationSignup} = require('../../helpers/middlewares');
@@ -115,6 +116,12 @@ router.put('/:id/save-event/:eventId', async(req, res, next) => {
     const updatedUser = await User.findByIdAndUpdate(
       id, 
       { $addToSet: {savedEvents: eventId} }, 
+      { new: true }
+    )
+
+    const updatedEvent = await Event.findByIdAndUpdate(
+      eventId, 
+      { $addToSet: {attendingAlumni: id} }, 
       { new: true }
     )
 

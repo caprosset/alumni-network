@@ -6,6 +6,7 @@ const authRouter = require('./auth/auth');
 const userRouter = require('./private/user');
 const jobRouter = require('./private/job');
 const eventRouter = require('./private/event');
+const dashboardRouter = require('./private/dashboard');
 
 // * '/auth' 
 router.use('/auth', authRouter);
@@ -33,6 +34,8 @@ router.use('/job', jobRouter);
 // * '/event'
 router.use('/event', eventRouter);
 
+// * '/dashboard'
+router.use('/dashboard', dashboardRouter);
 
 
 module.exports = router;
