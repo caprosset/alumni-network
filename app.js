@@ -10,9 +10,8 @@ const cors = require('cors');
 require('dotenv').config();
 
 
-// MAIN ROUTERS
+// MAIN ROUTER
 const indexRouter = require('./routes/index');
-const siteRouter = require('./routes/site-routes');
 
 
 // MONGOOSE CONNECTION
@@ -71,7 +70,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // ROUTER MIDDLEWARE
 app.use('/', indexRouter);
-app.use('/', siteRouter);
 
 
 // ERROR HANDLING
