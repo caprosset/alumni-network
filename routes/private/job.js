@@ -4,6 +4,7 @@ const createError = require('http-errors');
 const mongoose = require('mongoose');
 
 const JobOffer = require('../../models/joboffer');
+const User = require('../../models/user');
 
 
 // GET	/job	===> Show all job offers 
@@ -43,31 +44,39 @@ router.get('/:id', async (req, res, next) => {
 
 
 // POST	/job/create	===> add job offer
-router.post('/create', async (req, res, next) => {
+router.post('/create', (req, res, next) => {
     const { title, description, companyName, companyLogo, bootcamp, city, jobOfferUrl } = req.body;
+    const userId = req.session.currentUser._id;
+    const userIsAdmin = req.session.currentUser.isAdmin
+    
+    // if required fields are empty
+    if( !title || !description || !companyName || !bootcamp || !city || !jobOfferUrl) {
+      return next(createError(400));
+    } else {
+      if(userIsAdmin) {
+        // create the job offer
+        JobOffer.create({ author: req.session.currentUser._id, title, description, companyName, companyLogo, bootcamp, city, jobOfferUrl })
+        .then( (jobOfferCreated) => {
+          // const jobId = jobOfferCreated._id;
+          // const updatedUser = User.findByIdAndUpdate(
+          //   userId,
+          //   { $addToSet: {publishedJobOffers: jobId} }, 
+          //   { new: true }
+          // )
+          // req.session.currentUser = updatedUser;
 
-    try {
-      if( !title || !description || !companyName || !bootcamp || !city || !jobOfferUrl) {
-        return next(createError(400));
+          res.status(201).json(jobOfferCreated);
+        })
+        .catch( (err) => console.log(err));
       } else {
-        if(req.session.currentUser.isAdmin) {
-          const newJobOffer = await JobOffer.create({ author: req.session.currentUser._id, title, description, companyName, companyLogo, bootcamp, city, jobOfferUrl });
-          res.status(201).json(newJobOffer);
-        } else {
-          return next(createError(401));
-        }
+        return next(createError(401));
       }
     }
-    catch (error) {
-      next(error);
-    }
-  },
-);
+});
 
 
 // PUT	/job/edit/:id	===>	edit job offer
 router.put('/edit/:id', async (req, res, next) => {
-  console.log('HEEEERRRREEE')
   try {
     const { id } = req.params;
     console.log('PARAMS', req.params);
@@ -97,6 +106,20 @@ router.put('/edit/:id', async (req, res, next) => {
 
 
 // DELETE	/job/delete/:id	{id}	200	400	delete specific job offer
+router.get('/delete/:id', async (req, res, next) => {
+  // console.log('ID TO DELETE', req.params);
+
+  try {
+    const jobToRemove = await JobOffer.findOne({_id: req.params.id})
+    // console.log(jobToRemove);
+    await jobToRemove.remove();
+    res.status(200).json({ message: 'Job offer successfully deleted'});
+  }
+  catch (error) {
+    next(error);
+  }
+});
+
 
 
 module.exports = router;
