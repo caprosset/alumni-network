@@ -12,7 +12,7 @@ const { validationSignup} = require('../../helpers/middlewares');
 // GET	/user	===> Show all users 
 router.get('/', async (req,res,next) => {
   try {
-    const users = await User.find();
+    const users = await User.find({isAdmin: false});
     // console.log(users);
 
     if(!users) {
@@ -20,11 +20,11 @@ router.get('/', async (req,res,next) => {
     } else {
       res.status(200).json(users);
       // // return only users that are not admin
-      // users.map( oneUser => {
-      //   if(!oneUser.isAdmin) {
-      //     return res.json(oneUser);
-      //   }
-      // })
+      users.map( oneUser => {
+        if(!oneUser.isAdmin) {
+          return res.json(oneUser);
+        }
+      })
     }
   } catch (error) {
     next(error);

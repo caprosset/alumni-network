@@ -5,7 +5,7 @@ const router = express.Router();
 const authRouter = require('./auth/auth');
 const userRouter = require('./private/user');
 const jobRouter = require('./private/job');
-// const eventRouter = require('./private/event');
+const eventRouter = require('./private/event');
 
 // * '/auth' 
 router.use('/auth', authRouter);
@@ -30,8 +30,8 @@ router.use('/user', userRouter);
 // * '/job'
 router.use('/job', jobRouter);
 
-// // * '/event'
-// router.use('/event', eventRouter);
+// * '/event'
+router.use('/event', eventRouter);
 
 
 

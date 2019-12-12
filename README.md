@@ -52,20 +52,20 @@ Other features:
 | `/signup`            | SignupPage           | anon only   | Signup form, link to login, navigate to edit alumni profile after signup |
 | `/login`             | LoginPage            | anon only   | Login form, link to signup, navigate to home directory after login  |
 | `/logout`            | n/a                  | anon only   | Navigate to public homepage after logout, expire session            |
-| `/alumni`                 | ListAlumni           | user only   | Show all alumni in a list                                           |
-| `/alumni/:id`             | ShowAlumni           | user only   | Show details of an alumni                                           |
-| `/alumni/edit/:id`             | EditAlumni           | user only   | Edit details of an alumni                                           |
-| `/jobs`                   | ListJobs             | user only   | Shows all jobs in a list                                            |
-| `/jobs/:id`               | ShowJob              | user only   | Show details of a job offer                                         |
+| `/alumni`                 | ListAlumni           | user and admin   | Show all alumni in a list                                           |
+| `/alumni/:id`             | ShowAlumni           | user and admin   | Show details of an alumni                                           |
+| `/alumni/edit/:id`             | EditAlumni           | user and admin   | Edit details of an alumni                                           |
+| `/jobs`                   | ListJobs             | user and admin  | Shows all jobs in a list                                            |
+| `/jobs/:id`               | ShowJob              | user and admin  | Show details of a job offer                                         |
 | `/jobs/edit/:id`               | EditJob              | admin only   | Edit details of a job offer                                         |
 | `/jobs/:id`               | n/a                  | admin only   | Delete job offer                                                    |
 | `/jobs/add`               | CreateJob            | admin only   | Add new job offer                                                   |
-| `/events`                 | ListEvents           | user only   | Shows all events in a list                                          |
-| `/events/:id`             | ShowEvent            | user only   | Show details of an event                                            |
+| `/events`                 | ListEvents           | user and admin  | Shows all events in a list                                          |
+| `/events/:id`             | ShowEvent            | user and admin  | Show details of an event                                            |
 | `/events/edit/:id`             | EditEvent            | admin only   | Edit details of an event                                            |
 | `/events/:id`             | n/a                  | admin only   | Delete event from the app                                           |
 | `/events/add`             | CreateEvent          | admin only   | Add new event                                                       |  
-| `/dashboard`          | DashboardPage        | user only   | Show dashboard with saved jobs and events                           |  
+| `/dashboard`          | DashboardPage        | user and admin  | Show dashboard with saved jobs and events                           |  
 
 <br>
 

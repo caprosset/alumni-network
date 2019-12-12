@@ -43,35 +43,46 @@ router.get('/:id', async (req, res, next) => {
 })
 
 
-// POST	/job/create	===> add job offer
+// POST	/job/create	===> add job offer (admin only)
 router.post('/create', (req, res, next) => {
-    const { title, description, companyName, companyLogo, bootcamp, city, jobOfferUrl } = req.body;
-    const userId = req.session.currentUser._id;
-    const userIsAdmin = req.session.currentUser.isAdmin
-    
-    // if required fields are empty
-    if( !title || !description || !companyName || !bootcamp || !city || !jobOfferUrl) {
-      return next(createError(400));
-    } else {
-      if(userIsAdmin) {
-        // create the job offer
-        JobOffer.create({ author: req.session.currentUser._id, title, description, companyName, companyLogo, bootcamp, city, jobOfferUrl })
-        .then( (jobOfferCreated) => {
-          // const jobId = jobOfferCreated._id;
-          // const updatedUser = User.findByIdAndUpdate(
-          //   userId,
-          //   { $addToSet: {publishedJobOffers: jobId} }, 
-          //   { new: true }
-          // )
-          // req.session.currentUser = updatedUser;
-
-          res.status(201).json(jobOfferCreated);
+  const { title, description, companyName, companyLogo, bootcamp, city, jobOfferUrl } = req.body;
+  const userIsAdmin = req.session.currentUser.isAdmin
+  
+  // if required fields are empty
+  if( !title || !description || !companyName || !bootcamp || !city || !jobOfferUrl) {
+    return next(createError(400));
+  } else {
+    if(userIsAdmin) {
+      // create the job offer
+      JobOffer.create({ author: req.session.currentUser._id, title, description, companyName, companyLogo, bootcamp, city, jobOfferUrl })
+      .then( (jobOfferCreated) => {
+        const jobId = jobOfferCreated._id;
+        // console.log(jobId);
+        
+        // update all admin users publishedOffers
+        User.find({ isAdmin: true})
+        .then( adminUsers =>{
+          adminUsers.map( oneAdmin => {
+            // console.log(oneAdmin._id);
+            User.findByIdAndUpdate(oneAdmin._id,
+              { $push: {publishedJobOffers: jobId} }, 
+              { new: true })
+            .then( (oneAdmin) => {
+              //console.log(oneAdmin)
+            })
+            .catch( (err) => console.log(err));
+          })
+          // send back the answer with job offer
+          res.status(201).json(jobOfferCreated);  
         })
         .catch( (err) => console.log(err));
-      } else {
-        return next(createError(401));
-      }
+      })
+      .catch( (err) => console.log(err));
+    } 
+    else { // if user is not admin
+      return next(createError(401));
     }
+  }
 });
 
 
@@ -79,11 +90,12 @@ router.post('/create', (req, res, next) => {
 router.put('/edit/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
-    console.log('PARAMS', req.params);
-    const { title, description, companyName, companyLogo, bootcamp, city, jobOfferUrl } = req.body;
+    const userIsAdmin = req.session.currentUser.isAdmin;
+
+    const { title, description, date, companyName, companyLogo, bootcamp, city, jobOfferUrl } = req.body;
 
     // check that the user editing the job offer is an admin
-    if (!req.session.currentUser.isAdmin) {
+    if (!userIsAdmin) {
       res.status(401).json({ message: 'Unauthorized user'}); 
       return;
     }
@@ -91,12 +103,12 @@ router.put('/edit/:id', async (req, res, next) => {
     // add check : if fields are not empty
     await JobOffer.findByIdAndUpdate(
       id, 
-      { title, description, companyName, companyLogo, bootcamp, city, jobOfferUrl }, 
+      { title, description, date, companyName, companyLogo, bootcamp, city, jobOfferUrl }, 
       { new: true }
     );
 
     const updateJobOffer = await JobOffer.findById(id);
-    console.log('UPDATED JOB', updateJobOffer);
+    // console.log('UPDATED JOB', updateJobOffer);
     res.status(200).json(updateJobOffer);
   } 
   catch (error) {
@@ -105,21 +117,18 @@ router.put('/edit/:id', async (req, res, next) => {
 })
 
 
-// DELETE	/job/delete/:id	{id}	200	400	delete specific job offer
+// DELETE	/job/delete/:id	===>	delete specific job offer
 router.get('/delete/:id', async (req, res, next) => {
-  // console.log('ID TO DELETE', req.params);
+  const jobId = req.params.id;
 
   try {
-    const jobToRemove = await JobOffer.findOne({_id: req.params.id})
-    // console.log(jobToRemove);
-    await jobToRemove.remove();
-    res.status(200).json({ message: 'Job offer successfully deleted'});
+    await JobOffer.findByIdAndRemove(jobId);
+    res.status(200).json({ message: 'Job offer deleted successfully'});
   }
   catch (error) {
     next(error);
   }
 });
-
 
 
 module.exports = router;
