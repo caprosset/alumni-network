@@ -9,8 +9,10 @@ const MongoStore = require('connect-mongo')(session);
 const cors = require('cors');
 require('dotenv').config();
 
-const auth = require('./routes/auth');
-const user = require('./routes/user');
+
+// MAIN ROUTERS
+const indexRouter = require('./routes/index');
+const siteRouter = require('./routes/site-routes');
 
 
 // MONGOOSE CONNECTION
@@ -68,8 +70,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // ROUTER MIDDLEWARE
-app.use('/auth', auth);
-app.use('/user', user);
+app.use('/', indexRouter);
+app.use('/', siteRouter);
+
 
 // ERROR HANDLING
 // catch 404 and forward to error handler

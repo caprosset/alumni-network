@@ -3,7 +3,7 @@ const router = express.Router();
 const createError = require('http-errors');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-const User = require('../models/user');
+const User = require('../../models/user');
 
 // HELPER FUNCTIONS
 const {
@@ -11,7 +11,7 @@ const {
   isNotLoggedIn,
   validationSignup,
   validationLogin
-} = require('../helpers/middlewares');
+} = require('../../helpers/middlewares');
 
 
 //  GET '/me'
@@ -24,7 +24,7 @@ router.get('/me', isLoggedIn, (req, res, next) => {
 });
 
 
-//  POST  '/signup'
+//  POST '/signup'
 router.post(
   '/signup',
   isNotLoggedIn,
@@ -56,7 +56,7 @@ router.post(
 );
 
 
-//  POST    '/login'
+//  POST '/login'
 router.post(
   '/login',
   isNotLoggedIn,
@@ -87,12 +87,12 @@ router.post(
 );
 
 
-//  POST  '/logout'
+//  POST '/logout'
 router.post('/logout', isLoggedIn, (req, res, next) => {
   const { firstName, lastName } = req.session.currentUser;
   req.session.destroy();
   res
-    .status(200) //  No Content
+    .status(200) 
     .json({ message: `User '${firstName} ${lastName}' logged out - session destroyed` });
   return;
 });

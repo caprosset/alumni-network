@@ -55,7 +55,6 @@ Other features:
 | `/alumni`                 | ListAlumni           | user only   | Show all alumni in a list                                           |
 | `/alumni/:id`             | ShowAlumni           | user only   | Show details of an alumni                                           |
 | `/alumni/edit/:id`             | EditAlumni           | user only   | Edit details of an alumni                                           |
-| `/alumni/:id`             | n/a                  | user only   | Delete alumni from the app                                          |
 | `/jobs`                   | ListJobs             | user only   | Shows all jobs in a list                                            |
 | `/jobs/:id`               | ShowJob              | user only   | Show details of a job offer                                         |
 | `/jobs/edit/:id`               | EditJob              | admin only   | Edit details of a job offer                                         |
@@ -181,6 +180,7 @@ Event model
   bootcamp: {type: String, enum: [ "Web Development", "UX Design", "Data Analytics" ], required: true},
   streetAddress: {type: String, required: true},
   city: {type: String, enum: [ "Madrid", "Barcelona", "Lisbon", "Amsterdam", "Paris", "Berlin", "Mexico City", "Sao Paulo", "Miami" ], required: true},
+  attendingAlumni: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   eventURL: {type: String, required: true}
  }
 ``` 
@@ -220,7 +220,6 @@ JobOffer model
 | GET         | `/user`                     |                              | 200              | 400          | Show all alumni                                         |
 | GET         | `/user/:id`                 | {id}                         | 200                | 400             | Show specific alumni                                     |
 | PUT         | `/user/edit/:id`            | {firstName,lastName,phone,profilePicture,currentCity,currentRole,linkedinUrl,githubUrl,mediumUrl}           | 200            | 400          | edit alumni                                              |
-| DELETE      | `/user/delete/:id`     | {id}                         | 201            | 400          | delete specific alumni                                            |
 | PUT        | `/user/:id/save-job/:jobId`             | {id} |                |              | save job offer in alumni profile                                                    |
 | PUT        | `/user/:id/save-event/:eventId`             | {id} |                |              | save event in alumni profile                                                    |
 | GET         | `/jobs`                    |                              |                | 400          | show jobs offers                                                 |
