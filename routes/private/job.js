@@ -12,7 +12,7 @@ router.get('/', async (req,res,next) => {
   try {
     const jobs = await JobOffer.find();
     // console.log(jobs);
-
+    
     if(!jobs) {
       next(createError(404));
     } else {

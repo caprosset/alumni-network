@@ -16,7 +16,7 @@ const {
 
 //  GET '/me'
 router.get('/me', isLoggedIn, (req, res, next) => {
-  // avoid sending back the current user password
+  //  ensure password is not sent to the client side
   req.session.currentUser.password = '*';
 
   // send the response with user info 
