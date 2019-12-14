@@ -14,7 +14,7 @@ const {
 } = require('../../helpers/middlewares');
 
 
-//  GET '/me'
+//  GET '/auth/me'
 router.get('/me', isLoggedIn, (req, res, next) => {
   //  ensure password is not sent to the client side
   req.session.currentUser.password = '*';
@@ -24,7 +24,7 @@ router.get('/me', isLoggedIn, (req, res, next) => {
 });
 
 
-//  POST '/signup'
+//  POST '/auth/signup'
 router.post(
   '/signup',
   isNotLoggedIn,
@@ -56,7 +56,7 @@ router.post(
 );
 
 
-//  POST '/login'
+//  POST '/auth/login'
 router.post(
   '/login',
   isNotLoggedIn,
@@ -87,7 +87,7 @@ router.post(
 );
 
 
-//  POST '/logout'
+//  POST '/auth/logout'
 router.post('/logout', isLoggedIn, (req, res, next) => {
   const { firstName, lastName } = req.session.currentUser;
   req.session.destroy();

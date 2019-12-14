@@ -86,7 +86,7 @@ router.put('/edit/:id', validationSignup, async (req, res, next) => {
 })
 
 
-// PUT	/user/:id/save-job/:jobId	===> save job offer in alumni profile
+// PUT	/user/:id/save-job/:jobId	===> save job offer in alumni dashboard
 router.put('/:id/save-job/:jobId', async(req, res, next) => {
   try {
     const { id, jobId } = req.params;
@@ -107,7 +107,7 @@ router.put('/:id/save-job/:jobId', async(req, res, next) => {
 })
 
 
-// PUT	/user/:id/save-event/:eventId	===> save event in alumni profile
+// PUT	/user/:id/save-event/:eventId	===> save event in alumni dashboard
 router.put('/:id/save-event/:eventId', async(req, res, next) => {
   try {
     const { id, eventId } = req.params;
@@ -119,7 +119,7 @@ router.put('/:id/save-event/:eventId', async(req, res, next) => {
       { new: true }
     )
 
-    const updatedEvent = await Event.findByIdAndUpdate(
+    await Event.findByIdAndUpdate(
       eventId, 
       { $addToSet: {attendingAlumni: id} }, 
       { new: true }
@@ -133,6 +133,53 @@ router.put('/:id/save-event/:eventId', async(req, res, next) => {
   }
 })
 
+
+// PUT	/user/:id/remove-job/:jobId	===> remove job offer from alumni dashboard
+router.put('/:id/remove-job/:jobId', async(req, res, next) => {
+  try {
+    const { id, jobId } = req.params;
+    // console.log('PARAMS', id, jobId);
+    
+    const updatedUser = await User.findByIdAndUpdate(
+      id, 
+      { $pull: {savedJobs: jobId} }, 
+      { new: true }
+    )
+
+    req.session.currentUser = updatedUser;
+    res.status(200).json(updatedUser);
+  }
+  catch (error) {
+    next(error);
+  }
+})
+
+
+// PUT	/user/:id/remove-event/:eventId	===> remove event from alumni dashboard
+router.put('/:id/remove-event/:eventId', async(req, res, next) => {
+  try {
+    const { id, eventId } = req.params;
+    // console.log('PARAMS', id, eventId);
+    
+    const updatedUser = await User.findByIdAndUpdate(
+      id, 
+      { $pull: {savedEvents: eventId} }, 
+      { new: true }
+    )
+
+    Event.findByIdAndUpdate(
+      eventId, 
+      { $pull: {attendingAlumni: id} }, 
+      { new: true }
+    )
+
+    req.session.currentUser = updatedUser;
+    res.status(200).json(updatedUser);
+  }
+  catch (error) {
+    next(error);
+  }
+})
 
 // DELETE	/user'/delete/:id' ===>	delete specific alumni (status codes:  201,400)
 // alumni can't delete their profile for now
