@@ -219,13 +219,14 @@ JobOffer model
 | POST        | `/auth/logout`                | (empty)                      | 204            | 400          | Logs out the user                                            |
 | GET         | `/user`                     |                              | 200              | 400          | Show all alumni                                         |
 | GET         | `/user/:id`                 | {id}                         | 200                | 400             | Show specific alumni                                     |
-| PUT         | `/user/edit/:id`            | {firstName,lastName,phone,profilePicture,currentCity,currentRole,linkedinUrl,githubUrl,mediumUrl}           | 200            | 400          | edit alumni                                              |
-| PUT        | `/user/:id/save-job/:jobId`             | {id} |                |              | save job offer in alumni profile                                                    |
-| PUT        | `/user/:id/save-event/:eventId`             | {id} |                |              | save event in alumni profile                                                    |
+| PUT         | `/user/edit/:id`            | {id,firstName,lastName,phone,profilePicture,currentCity,currentRole,linkedinUrl,githubUrl,mediumUrl}           | 200            | 400          | edit alumni                                              |
+| PUT        | `/user/:id/save-job/:jobId`             | {id, jobId} |                |              | save job offer in user dashboard                                                    |
+| PUT        | `/user/:id/remove-job/:jobId`             | {id, jobId} |                |              | remove job offer from user dashboard                                              || PUT        | `/user/:id/save-event/:eventId`             | {id, jobId} |                |              | save event in alumni profile                                                    |
+| PUT        | `/user/:id/remove-event/:jobId`             | {id, jobId} |                |              | remove event offer from user dashboard                                        |
 | GET         | `/job`                    |                              |                | 404          | show jobs offers                                                 |
 | GET         | `/job/:id`                | {id}                         |                |              | show specific job offer                                         |
 | POST        | `/job/create`         | {author,title,description,dateOfPublication,companyName,companyLogo,bootcamp,city,jobOfferUrl}      | 200            | 404          | add job offer                                                   |
-| PUT         | `/job/edit/:id`           | {author,title,description,dateOfPublication,companyName,companyLogo,bootcamp,city,jobOfferUrl}                   | 201            | 400          | edit job offer                                                        |
+| PUT         | `/job/edit/:id`           | {id,author,title,description,dateOfPublication,companyName,companyLogo,bootcamp,city,jobOfferUrl}                   | 201            | 400          | edit job offer                                                        |
 | DELETE      | `/job/delete/:id`         | {id}                         | 200            | 400          | delete specific job offer                                                      |
 | GET         | `/event`                      | {}                           | 201            | 400          | show events                                                   |
 | GET         | `/event/:id`                  | {id}            |                |              | show specific event                                           |
@@ -246,8 +247,8 @@ JobOffer model
 
 The url to your repository and to your deployed project
 
-[Client repository Link](http://github.com)
-[Server repository Link](http://github.com)
+[Client repository Link](https://github.com/caprosset/alumni-network_client)
+[Server repository Link](https://github.com/caprosset/alumni-network_server)
 
 [Deploy Link](http://heroku.com)
 
