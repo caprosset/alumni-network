@@ -34,7 +34,9 @@ router.get('/', async (req,res,next) => {
         return;
       }
   
-      const event = await Event.findById( id );
+      const event = await Event.findById( id )
+        .populate('author attendingAlumni');
+
       res.status(200).json(event);
     } 
     catch (error) {

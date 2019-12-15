@@ -34,7 +34,9 @@ router.get('/:id', async (req, res, next) => {
       return;
     }
 
-    const job = await JobOffer.findById( id );
+    const job = await JobOffer.findById( id )
+      .populate('author');
+      
     res.status(200).json(job);
   } 
   catch (error) {
