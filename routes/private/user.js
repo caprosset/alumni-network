@@ -6,9 +6,6 @@ const mongoose = require('mongoose');
 const User = require('../../models/user');
 const Event = require('../../models/event');
 
-// HELPER FUNCTIONS
-const { validationSignup} = require('../../helpers/middlewares');
-
 
 // GET	/user	===> Show all users 
 router.get('/', async (req,res,next) => {
@@ -54,11 +51,10 @@ router.get('/:id', async (req, res, next) => {
 
 // PUT	/user/edit/:id	===> 
 // {firstName,lastName,phone,profilePicture,currentCity,currentRole,linkedinUrl,githubUrl,mediumUrl}	
-// Check that all fields required are completed (validationSignup)
-router.put('/edit/:id', validationSignup, async (req, res, next) => {
+router.put('/edit/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { firstName, lastName, email, password, bootcamp, campus, cohort, phone, profilePicture, currentCity, currentRole, linkedinUrl, githubUrl, mediumUrl, isAdmin } = req.body;
+    const { firstName, lastName, phone, profilePicture, currentCity, currentRole, currentCompany, linkedinUrl, githubUrl, mediumUrl, isAdmin } = req.body;
     
     // console.log('PARAM ID', id);
     // console.log('CURRENT USER ID', req.session.currentUser._id);
@@ -69,16 +65,21 @@ router.put('/edit/:id', validationSignup, async (req, res, next) => {
       return;
     }
 
-    await User.findByIdAndUpdate(
-      id, 
-      {  firstName, lastName, email, password, bootcamp, campus, cohort, phone, profilePicture, currentCity, currentRole, linkedinUrl, githubUrl, mediumUrl, isAdmin }, 
-      { new: true }
-    );
-
-    const updatedUser = await User.findById(id);
-    // console.log('UPDATED USER', updatedUser);
-    req.session.currentUser = updatedUser;
-    res.status(200).json(updatedUser);
+    // Check that all required fields are completed
+    if (!firstName || !lastName || !isAdmin) {
+      next(createError(400));
+    } else {
+      await User.findByIdAndUpdate(
+        id, 
+        {  firstName, lastName, phone, profilePicture, currentCity, currentRole, currentCompany, linkedinUrl, githubUrl, mediumUrl, isAdmin }, 
+        { new: true }
+      );
+  
+      const updatedUser = await User.findById(id);
+      // console.log('UPDATED USER', updatedUser);
+      req.session.currentUser = updatedUser;
+      res.status(200).json(updatedUser);
+    }
   } 
   catch (error) {
     next(error);

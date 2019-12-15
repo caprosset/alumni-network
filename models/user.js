@@ -13,6 +13,7 @@ const userSchema = new Schema({
   profilePicture: {type: String},
   currentCity: {type: String},
   currentRole: {type: String},
+  currentCompany: {type: String},
   linkedinUrl: {type: String},
   githubUrl: {type: String},
   mediumUrl: {type: String},
