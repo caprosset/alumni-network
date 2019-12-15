@@ -40,7 +40,9 @@ router.get('/:id', async (req, res, next) => {
       return;
     }
 
-    const user = await User.findById( id );
+    const user = await User.findById( id )
+    .populate('savedJobs savedEvents');
+
     res.status(200).json(user);
   } 
   catch (error) {
