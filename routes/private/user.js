@@ -10,7 +10,8 @@ const Event = require('../../models/event');
 // GET	/user	===> Show all users 
 router.get('/', async (req,res,next) => {
   try {
-    const users = await User.find({isAdmin: false});
+    const users = await User.find();
+    // const users = await User.find({isAdmin: false});
     // console.log(users);
 
     if(!users) {
@@ -68,7 +69,7 @@ router.put('/edit/:id', async (req, res, next) => {
     }
 
     // Check that all required fields are completed
-    if (!firstName || !lastName || !isAdmin) {
+    if (!firstName || !lastName) {
       next(createError(400));
     } else {
       await User.findByIdAndUpdate(

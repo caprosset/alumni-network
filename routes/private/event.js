@@ -11,7 +11,7 @@ const User = require('../../models/user');
 router.get('/', async (req,res,next) => {
   try {
     const events = await Event.find();
-    // console.log(jobs);
+    // console.log(events);
 
     if(!events) {
       next(createError(404));
@@ -55,7 +55,7 @@ router.get('/', async (req,res,next) => {
       return next(createError(400));
     } else {
       if(userIsAdmin) {
-        // create the job offer
+        // create the event
         Event.create({ author: req.session.currentUser._id, title, description, date, image, bootcamp, streetAddress, city, eventUrl })
         .then( (eventCreated) => {
           const eventId = eventCreated._id;
@@ -123,7 +123,13 @@ router.get('/delete/:id', async (req, res, next) => {
   const eventId = req.params.id;
 
   try {
-    await Event.findByIdAndRemove(eventId)
+    await Event.findByIdAndRemove(eventId);
+
+    await User.updateMany( {},
+      { $pull: { publishedEvents: eventId, savedEvents: eventId } }, 
+      { new: true }
+    );
+
     res.status(200).json({ message: 'Event deleted successfully'});
   }
   catch (error) {

@@ -125,6 +125,12 @@ router.get('/delete/:id', async (req, res, next) => {
 
   try {
     await JobOffer.findByIdAndRemove(jobId);
+
+    await User.updateMany( {},
+      { $pull: { publishedJobOffers: jobId, savedJobs: jobId } }, 
+      { new: true }
+    );
+    
     res.status(200).json({ message: 'Job offer deleted successfully'});
   }
   catch (error) {
