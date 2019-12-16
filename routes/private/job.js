@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 const JobOffer = require('../../models/JobOffer');
 const User = require('../../models/User');
 
+const parser = require('../../config/cloudinary');
+
 
 // GET	/job	===> Show all job offers 
 router.get('/', async (req,res,next) => {
@@ -46,9 +48,10 @@ router.get('/:id', async (req, res, next) => {
 
 
 // POST	/job/create	===> add job offer (admin only)
-router.post('/create', (req, res, next) => {
+router.post('/create', /*parser.single('companyLogo'),*/ (req, res, next) => {
   const { title, description, companyName, companyLogo, bootcamp, city, jobOfferUrl } = req.body;
-  const userIsAdmin = req.session.currentUser.isAdmin
+  // const companyLogo = req.file ? req.file.secure_url : null;
+  const userIsAdmin = req.session.currentUser.isAdmin;
   
   // if required fields are empty
   if( !title || !description || !companyName || !bootcamp || !city || !jobOfferUrl) {
@@ -89,11 +92,12 @@ router.post('/create', (req, res, next) => {
 
 
 // PUT	/job/edit/:id	===>	edit job offer
-router.put('/edit/:id', async (req, res, next) => {
+router.put('/edit/:id', /*parser.single('companyLogo'),*/ async (req, res, next) => {
   try {
     const { id } = req.params;
     const userIsAdmin = req.session.currentUser.isAdmin;
 
+    // const companyLogo = req.file ? req.file.secure_url : null;
     const { title, description, date, companyName, companyLogo, bootcamp, city, jobOfferUrl } = req.body;
 
     // check that the user editing the job offer is an admin
