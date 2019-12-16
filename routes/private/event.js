@@ -4,7 +4,7 @@ const createError = require('http-errors');
 const mongoose = require('mongoose');
 
 const Event = require('../../models/event');
-const User = require('../../models/user');
+const User = require('../../models/User');
 
 
  // GET	/events	===>	show all events

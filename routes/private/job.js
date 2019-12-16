@@ -4,7 +4,7 @@ const createError = require('http-errors');
 const mongoose = require('mongoose');
 
 const JobOffer = require('../../models/joboffer');
-const User = require('../../models/user');
+const User = require('../../models/User');
 
 
 // GET	/job	===> Show all job offers 
