@@ -5,7 +5,7 @@ const eventSchema = Schema({
   author: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
   title: {type: String, required: true},
   description: {type: String, required: true},
-  date: {type: String, required: true},
+  date: {type: Date, required: true},
   image: {type: String},
   bootcamp: {type: String, enum: [ "Web Development", "UX Design", "Data Analytics" ], required: true},
   streetAddress: {type: String, required: true},
