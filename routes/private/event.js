@@ -6,8 +6,6 @@ const mongoose = require('mongoose');
 const Event = require('../../models/Event');
 const User = require('../../models/User');
 
-const parser = require('../../config/cloudinary');
-
 
  // GET	/events	===>	show all events
 router.get('/', async (req,res,next) => {
@@ -48,9 +46,8 @@ router.get('/', async (req,res,next) => {
 
 
   // POST	/event/create ===>	add event (admin only)
-  router.post('/create', /*parser.single('image'),*/ (req, res, next) => {
+  router.post('/create', (req, res, next) => {
     const { title, description, date, image, bootcamp, streetAddress, city, eventUrl } = req.body;
-    // const image = req.file ? req.file.secure_url : null;
     const userIsAdmin = req.session.currentUser.isAdmin;
   
     // if required fields are empty
@@ -91,12 +88,11 @@ router.get('/', async (req,res,next) => {
 
 
 // PUT	/event/edit/:id	===>	edit event
-router.put('/edit/:id', /*parser.single('image'),*/ async (req, res, next) => {
+router.put('/edit/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const userIsAdmin = req.session.currentUser.isAdmin;
 
-    // const image = req.file ? req.file.secure_url : null;
     const { title, description, date, image, bootcamp, streetAddress, city, eventUrl } = req.body;
 
     // check that the user editing the event is an admin

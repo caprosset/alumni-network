@@ -6,8 +6,6 @@ const mongoose = require('mongoose');
 const User = require('../../models/User');
 const Event = require('../../models/Event');
 
-const parser = require('../../config/cloudinary');
-
 
 // GET	/user	===> Show all users 
 router.get('/', async (req,res,next) => {
@@ -55,12 +53,11 @@ router.get('/:id', async (req, res, next) => {
 
 
 // PUT	/user/edit/:id	===> 
-// {firstName,lastName,phone,profilePicture,currentCity,currentRole,linkedinUrl,githubUrl,mediumUrl}	
-router.put('/edit/:id', parser.single('profilePicture'), async (req, res, next) => {
+// {firstName,lastName,phone,image,currentCity,currentRole,linkedinUrl,githubUrl,mediumUrl}	
+router.put('/edit/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { firstName, lastName, phone, /*profilePicture,*/ currentCity, currentRole, currentCompany, linkedinUrl, githubUrl, mediumUrl, isAdmin } = req.body;
-    const profilePicture = req.file ? req.file.secure_url : null;
+    const { firstName, lastName, phone, image, currentCity, currentRole, currentCompany, linkedinUrl, githubUrl, mediumUrl, isAdmin } = req.body;
 
     // console.log('PARAM ID', id);
     // console.log('CURRENT USER ID', req.session.currentUser._id);
@@ -79,7 +76,7 @@ router.put('/edit/:id', parser.single('profilePicture'), async (req, res, next) 
     } else {
       await User.findByIdAndUpdate(
         id, 
-        {  firstName, lastName, phone, profilePicture, currentCity, currentRole, currentCompany, linkedinUrl, githubUrl, mediumUrl, isAdmin }, 
+        {  firstName, lastName, phone, image, currentCity, currentRole, currentCompany, linkedinUrl, githubUrl, mediumUrl, isAdmin }, 
         { new: true }
       );
   

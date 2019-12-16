@@ -10,7 +10,7 @@ cloudinary.config({
 
 const storage = cloudinaryStorage({
   cloudinary: cloudinary,
-  folder: 'demo',
+  folder: 'alumni-network',
   allowedFormats: ['jpg', 'png'],
 });
 

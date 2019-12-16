@@ -10,7 +10,7 @@ const userSchema = new Schema({
   campus: {type: String, enum: [ "Madrid", "Barcelona", "Lisbon", "Amsterdam", "Paris", "Berlin", "Mexico City", "Sao Paulo", "Miami" ], required: true},
   cohort: {type: String, enum: [ "jan-18", "apr-18", "jul-18", "oct-18", "jan-19", "apr-19", "jul-19", "oct-19" ], required: true},
   phone: {type: String},
-  profilePicture: {type: String},
+  image: {type: String},
   currentCity: {type: String},
   currentRole: {type: String},
   currentCompany: {type: String},
