@@ -148,7 +148,7 @@ router.put('/:id/remove-job/:jobId', async(req, res, next) => {
       id, 
       { $pull: {savedJobs: jobId} }, 
       { new: true }
-    ).populate('savedJobs');
+    ).populate('savedEvents');
 
     req.session.currentUser = updatedUser;
     res.status(200).json(updatedUser);
