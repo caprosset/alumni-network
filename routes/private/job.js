@@ -3,7 +3,7 @@ const router = express.Router();
 const createError = require('http-errors');
 const mongoose = require('mongoose');
 
-const JobOffer = require('../../models/joboffer');
+const JobOffer = require('../../models/JobOffer');
 const User = require('../../models/User');
 
 
