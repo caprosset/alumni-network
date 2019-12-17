@@ -10,10 +10,4 @@ router.post('/', parser.single('image'), (req,res,next)=> {
   res.status(201).json(image_url);
 })
 
-router.put('/', parser.single('image'), (req,res,next)=> {  
-  console.log("inside cloudinary edit route");
-  const image_url = req.file.secure_url;
-  res.status(201).json(image_url);
-})
-  
 module.exports = router;
