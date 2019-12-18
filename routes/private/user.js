@@ -10,8 +10,8 @@ const Event = require('../../models/Event');
 // GET	/user	===> Show all users 
 router.get('/', async (req,res,next) => {
   try {
-    const users = await User.find();
-    // const users = await User.find({isAdmin: false});
+    // const users = await User.find();
+    const users = await User.find({isAdmin: false});
     // console.log(users);
 
     if(!users) {
