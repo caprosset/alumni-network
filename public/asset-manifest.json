@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/static/css/main.381f4159.chunk.css",
+    "main.js": "/static/js/main.d2e57d15.chunk.js",
+    "main.js.map": "/static/js/main.d2e57d15.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.e8ac4ea3.js",
+    "runtime-main.js.map": "/static/js/runtime-main.e8ac4ea3.js.map",
+    "static/css/2.c4418c31.chunk.css": "/static/css/2.c4418c31.chunk.css",
+    "static/js/2.1d864347.chunk.js": "/static/js/2.1d864347.chunk.js",
+    "static/js/2.1d864347.chunk.js.map": "/static/js/2.1d864347.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.47a12cd6fad5f8961f027611b9e8f658.js": "/precache-manifest.47a12cd6fad5f8961f027611b9e8f658.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.c4418c31.chunk.css.map": "/static/css/2.c4418c31.chunk.css.map",
+    "static/css/main.381f4159.chunk.css.map": "/static/css/main.381f4159.chunk.css.map",
+    "static/js/2.1d864347.chunk.js.LICENSE": "/static/js/2.1d864347.chunk.js.LICENSE",
+    "static/media/ironhack.png": "/static/media/ironhack.6143ca78.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.e8ac4ea3.js",
+    "static/css/2.c4418c31.chunk.css",
+    "static/js/2.1d864347.chunk.js",
+    "static/css/main.381f4159.chunk.css",
+    "static/js/main.d2e57d15.chunk.js"
+  ]
+}
