@@ -42,7 +42,7 @@ router.post(
         const salt = bcrypt.genSaltSync(saltRounds);
         const hashPass = bcrypt.hashSync(password, salt);
 
-        const newUser = await User.create({ firstName, lastName, email, password: hashPass, bootcamp, campus, cohort, isAdmin, phone: '', image: '', currentCity: '', currentRole: '', currentCompany: '', linkedinUrl: '', githubUrl: '', mediumUrl: '' });
+        const newUser = await User.create({ firstName, lastName, email, password: hashPass, bootcamp, campus, cohort, isAdmin, phone: '', image: 'https://res.cloudinary.com/cross87/image/upload/v1576747755/alumni-network/avatar_k3u8ma.png', currentCity: '', currentRole: '', currentCompany: '', linkedinUrl: '', githubUrl: '', mediumUrl: '' });
       
         // assign the newly created user to the session current user
         req.session.currentUser = newUser;
