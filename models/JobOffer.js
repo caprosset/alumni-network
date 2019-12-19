@@ -7,7 +7,7 @@ const jobOfferSchema = Schema({
   description: {type: String, required: true},
   companyName: {type: String, required: true},
   image: {type: String},
-  bootcamp: {type: String, enum: [ "Web Development", "UX Design", "Data Analytics" ], required: true},
+  bootcamp: {type: String, enum: [ "All bootcamps", "Web Development", "UX Design", "Data Analytics" ], required: true},
   city: {type: String, enum: [ "Madrid", "Barcelona", "Lisbon", "Amsterdam", "Paris", "Berlin", "Mexico City", "Sao Paulo", "Miami" ], required: true},
   jobOfferUrl: {type: String, required: true}
 }, 
