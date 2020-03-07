@@ -37,7 +37,7 @@ router.get('/:id', async (req, res, next) => {
     const { id } = req.params;
 
     if ( !mongoose.Types.ObjectId.isValid(id)) {
-      res.status(400).json({ message: 'Specified id is not valid'}); 
+      res.status(400).json({ "message": "Specified id is not valid"}); 
       return;
     }
 
@@ -64,7 +64,7 @@ router.put('/edit/:id', async (req, res, next) => {
 
     // check if the user being edited corresponds to the user logged in
     if ( id !== req.session.currentUser._id ) {
-      res.status(401).json({ message: 'Unauthorized id'}); 
+      res.status(401).json({ "message": "Unauthorized id"}); 
       return;
     }
 
@@ -74,14 +74,12 @@ router.put('/edit/:id', async (req, res, next) => {
     if (!firstName || !lastName) {
       next(createError(400));
     } else {
-      await User.findByIdAndUpdate(
+      const updatedUser = await User.findByIdAndUpdate(
         id, 
         {  firstName, lastName, phone, image, currentCity, currentRole, currentCompany, linkedinUrl, githubUrl, mediumUrl, isAdmin }, 
         { new: true }
       );
   
-      const updatedUser = await User.findById(id);
-      // console.log('UPDATED USER', updatedUser);
       req.session.currentUser = updatedUser;
       res.status(200).json(updatedUser);
     }

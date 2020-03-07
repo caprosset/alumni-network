@@ -94,7 +94,7 @@ router.post('/logout', isLoggedIn, (req, res, next) => {
   req.session.destroy();
   res
     .status(200) 
-    .json({ message: `User '${firstName} ${lastName}' logged out - session destroyed` });
+    .json({ "message": `User '${firstName} ${lastName}' logged out - session destroyed` });
   return;
 });
 
@@ -103,7 +103,7 @@ router.post('/logout', isLoggedIn, (req, res, next) => {
 // router.get('/private', isLoggedIn, (req, res, next) => {
 //   res
 //     .status(200) // OK
-//     .json({ message: 'Test - User is logged in' });
+//     .json({ "message": 'Test - User is logged in' });
 // });
 
 

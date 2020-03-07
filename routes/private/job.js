@@ -30,7 +30,7 @@ router.get('/:id', async (req, res, next) => {
     const { id } = req.params;
 
     if ( !mongoose.Types.ObjectId.isValid(id)) {
-      res.status(400).json({ message: 'Specified id is not valid'}); 
+      res.status(400).json({ "message": "Specified id is not valid"}); 
       return;
     }
 
@@ -98,7 +98,7 @@ router.put('/edit/:id', async (req, res, next) => {
 
     // check that the user editing the job offer is an admin
     if (!userIsAdmin) {
-      res.status(401).json({ message: 'Unauthorized user'}); 
+      res.status(401).json({ "message": "Unauthorized user"}); 
       return;
     }
 
@@ -131,7 +131,7 @@ router.get('/delete/:id', async (req, res, next) => {
       { new: true }
     );
     
-    res.status(200).json({ message: 'Job offer deleted successfully'});
+    res.status(200).json({ "message": "Job offer deleted successfully"});
   }
   catch (error) {
     next(error);
