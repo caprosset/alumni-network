@@ -10,20 +10,13 @@ const Event = require('../../models/Event');
 // GET	/user	===> Show all users 
 router.get('/', async (req,res,next) => {
   try {
-    // const users = await User.find();
     const users = await User.find({isAdmin: false});
-    // console.log(users);
 
+    // return only users that are not admin
     if(!users) {
       next(createError(404));
     } else {
       res.status(200).json(users);
-      // // return only users that are not admin
-      users.map( oneUser => {
-        if(!oneUser.isAdmin) {
-          return res.json(oneUser);
-        }
-      })
     }
   } catch (error) {
     next(error);
@@ -53,14 +46,10 @@ router.get('/:id', async (req, res, next) => {
 
 
 // PUT	/user/edit/:id	===> 
-// {firstName,lastName,phone,image,currentCity,currentRole,linkedinUrl,githubUrl,mediumUrl}	
 router.put('/edit/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { firstName, lastName, phone, image, currentCity, currentRole, currentCompany, linkedinUrl, githubUrl, mediumUrl, isAdmin } = req.body;
-
-    // console.log('PARAM ID', id);
-    // console.log('CURRENT USER ID', req.session.currentUser._id);
+    const { firstName, lastName, phone, image, currentCity, currentRole, currentCompany, linkedinUrl, githubUrl, mediumUrl } = req.body;
 
     // check if the user being edited corresponds to the user logged in
     if ( id !== req.session.currentUser._id ) {
@@ -68,15 +57,13 @@ router.put('/edit/:id', async (req, res, next) => {
       return;
     }
 
-    
-
     // Check that all required fields are completed
     if (!firstName || !lastName) {
       next(createError(400));
     } else {
       const updatedUser = await User.findByIdAndUpdate(
         id, 
-        {  firstName, lastName, phone, image, currentCity, currentRole, currentCompany, linkedinUrl, githubUrl, mediumUrl, isAdmin }, 
+        {  firstName, lastName, phone, image, currentCity, currentRole, currentCompany, linkedinUrl, githubUrl, mediumUrl }, 
         { new: true }
       );
   
@@ -94,7 +81,6 @@ router.put('/edit/:id', async (req, res, next) => {
 router.put('/:id/save-job/:jobId', async(req, res, next) => {
   try {
     const { id, jobId } = req.params;
-    // console.log('PARAMS', id, jobId);
     
     const updatedUser = await User.findByIdAndUpdate(
       id, 
@@ -115,7 +101,6 @@ router.put('/:id/save-job/:jobId', async(req, res, next) => {
 router.put('/:id/save-event/:eventId', async(req, res, next) => {
   try {
     const { id, eventId } = req.params;
-    // console.log('PARAMS', id, eventId);
     
     const updatedUser = await User.findByIdAndUpdate(
       id, 
@@ -142,7 +127,6 @@ router.put('/:id/save-event/:eventId', async(req, res, next) => {
 router.put('/:id/remove-job/:jobId', async(req, res, next) => {
   try {
     const { id, jobId } = req.params;
-    // console.log('PARAMS', id, jobId);
     
     const updatedUser = await User.findByIdAndUpdate(
       id, 
@@ -163,7 +147,6 @@ router.put('/:id/remove-job/:jobId', async(req, res, next) => {
 router.put('/:id/remove-event/:eventId', async(req, res, next) => {
   try {
     const { id, eventId } = req.params;
-    // console.log('PARAMS', id, eventId);
     
     const updatedUser = await User.findByIdAndUpdate(
       id, 

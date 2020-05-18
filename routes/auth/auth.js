@@ -18,36 +18,51 @@ const {
 //  GET '/auth/me'
 router.get('/me', isLoggedIn, (req, res, next) => {
   //  ensure password is not sent to the client side
-  req.session.currentUser.password = '*';
+  req.session.currentUser.password = '*****';
 
   // send the response with user info 
-  res.json(req.session.currentUser);
+  res
+    .status(200)
+    .json(req.session.currentUser);
 });
 
 
 //  POST '/auth/signup'
 router.post(
   '/signup',
-  isNotLoggedIn,
+  isNotLoggedIn, 
   validationSignup,
   async (req, res, next) => {
     const { firstName, lastName, email, password, bootcamp, campus, cohort, isAdmin } = req.body;
 
     try {
-      // check if `email` already exists in the DB
-      const emailExists = await User.findOne({ email }, 'email'); // return only the property 'email' of the user object (projection)
+      const emailExists = await User.findOne({ email }, 'email');
+      // 
+      console.log('emailExists', emailExists)
 
       if (emailExists) return next(createError(400));
       else {
         const salt = bcrypt.genSaltSync(saltRounds);
         const hashPass = bcrypt.hashSync(password, salt);
 
-        const newUser = await User.create({ firstName, lastName, email, password: hashPass, bootcamp, campus, cohort, isAdmin, phone: '', image: 'https://res.cloudinary.com/cross87/image/upload/v1576747755/alumni-network/avatar_k3u8ma.png', currentCity: '', currentRole: '', currentCompany: '', linkedinUrl: '', githubUrl: '', mediumUrl: '' });
+        const newUser = await User.create({ 
+          firstName, 
+          lastName, 
+          email, 
+          password: hashPass, 
+          bootcamp, 
+          campus, 
+          cohort, 
+          isAdmin, 
+          image: 'https://res.cloudinary.com/cross87/image/upload/v1576747755/alumni-network/avatar_k3u8ma.png' 
+        });
       
         // assign the newly created user to the session current user
         req.session.currentUser = newUser;
+        req.session.currentUser.password = '*****';
+
         res
-          .status(200) //  OK
+          .status(201) // Created
           .json(newUser);
       }
     } catch (error) {
@@ -108,6 +123,5 @@ router.post('/logout', isLoggedIn, (req, res, next) => {
 
 
 module.exports = router;
-
 
 

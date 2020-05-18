@@ -11,7 +11,6 @@ const User = require('../../models/User');
 router.get('/', async (req,res,next) => {
   try {
     const events = await Event.find();
-    // console.log(events);
 
     if(!events) {
       next(createError(404));
@@ -59,19 +58,16 @@ router.get('/', async (req,res,next) => {
         Event.create({ author: req.session.currentUser._id, title, description, date, image, bootcamp, streetAddress, city, eventUrl })
         .then( (eventCreated) => {
           const eventId = eventCreated._id;
-          // console.log(eventId);
           
           // update all admin users publishedEvents
           User.find({ isAdmin: true})
           .then( adminUsers =>{
             adminUsers.map( oneAdmin => {
-              // console.log(oneAdmin._id);
               User.findByIdAndUpdate(oneAdmin._id,
                 { $push: {publishedEvents: eventId} }, 
                 { new: true })
-              .then( (oneAdmin) => { //console.log(oneAdmin)
-              })
-              .catch( (err) => console.log(err));
+              .then( (oneAdmin) => console.log(oneAdmin))
+              .catch( (err) => next(err));
             })
             // send back the answer with event
             res.status(201).json(eventCreated);  
@@ -109,7 +105,6 @@ router.put('/edit/:id', async (req, res, next) => {
     );
 
     const updatedEvent = await Event.findById(id);
-    // console.log('UPDATED EVENT', updatedEvent);
     res.status(200).json(updatedEvent);
   } 
   catch (error) {

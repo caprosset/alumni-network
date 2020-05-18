@@ -2,18 +2,18 @@ const createError = require('http-errors');
 
 exports.isLoggedIn = (req, res, next) => {
   if (req.session.currentUser) next();
-  else next(createError(401));
+  else next(createError(401)); // Unauthorized
 };
 
 exports.isNotLoggedIn = (req, res, next) => {
   if (!req.session.currentUser) next();
-  else next(createError(403));
+  else next(createError(403)); // Forbidden
 };
 
 exports.validationSignup = (req, res, next) => {
-  const { firstName, lastName, email, password, bootcamp, campus, cohort, isAdmin } = req.body;
+  const { firstName, lastName, email, password, bootcamp, campus, cohort} = req.body;
 
-  if (!firstName || !lastName || !email || !password || !bootcamp || !campus || !cohort || !isAdmin) next(createError(400));
+  if (!firstName || !lastName || !email || !password || !bootcamp || !campus || !cohort) next(createError(400));
   else next();
 };
 
