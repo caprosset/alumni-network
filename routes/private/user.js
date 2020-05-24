@@ -10,25 +10,20 @@ const Event = require('../../models/Event');
 // GET	/user	===> Show all users 
 router.get('/', async (req,res,next) => {
   try {
-    const users = await User.find({isAdmin: false});
-
     // return only users that are not admin
-    if(!users) {
-      next(createError(404));
-    } else {
-      res.status(200).json(users);
-    }
+    const users = await User.find({isAdmin: false});
+    res.status(200).json(users);
   } catch (error) {
-    next(error);
+    next(createError(error));
   }
 })
 
 
 // GET	/user/:id ===> Show specific user
 router.get('/:id', async (req, res, next) => {
+  const { id } = req.params;
+  
   try {
-    const { id } = req.params;
-
     if ( !mongoose.Types.ObjectId.isValid(id)) {
       res.status(400).json({ "message": "Specified id is not valid"}); 
       return;
@@ -47,10 +42,10 @@ router.get('/:id', async (req, res, next) => {
 
 // PUT	/user/edit/:id	===> 
 router.put('/edit/:id', async (req, res, next) => {
+  const { id } = req.params;
+  const { firstName, lastName, phone, image, currentCity, currentRole, currentCompany, linkedinUrl, githubUrl, mediumUrl } = req.body;
+  
   try {
-    const { id } = req.params;
-    const { firstName, lastName, phone, image, currentCity, currentRole, currentCompany, linkedinUrl, githubUrl, mediumUrl } = req.body;
-
     // check if the user being edited corresponds to the user logged in
     if ( id !== req.session.currentUser._id ) {
       res.status(401).json({ "message": "Unauthorized id"}); 
@@ -79,9 +74,9 @@ router.put('/edit/:id', async (req, res, next) => {
 
 // PUT	/user/:id/save-job/:jobId	===> save job offer in alumni dashboard
 router.put('/:id/save-job/:jobId', async(req, res, next) => {
+  const { id, jobId } = req.params;
+
   try {
-    const { id, jobId } = req.params;
-    
     const updatedUser = await User.findByIdAndUpdate(
       id, 
       { $addToSet: {savedJobs: jobId} }, 
@@ -99,9 +94,9 @@ router.put('/:id/save-job/:jobId', async(req, res, next) => {
 
 // PUT	/user/:id/save-event/:eventId	===> save event in alumni dashboard
 router.put('/:id/save-event/:eventId', async(req, res, next) => {
+  const { id, eventId } = req.params;
+
   try {
-    const { id, eventId } = req.params;
-    
     const updatedUser = await User.findByIdAndUpdate(
       id, 
       { $addToSet: {savedEvents: eventId} }, 
@@ -125,9 +120,9 @@ router.put('/:id/save-event/:eventId', async(req, res, next) => {
 
 // PUT	/user/:id/remove-job/:jobId	===> remove job offer from alumni dashboard
 router.put('/:id/remove-job/:jobId', async(req, res, next) => {
+  const { id, jobId } = req.params;
+
   try {
-    const { id, jobId } = req.params;
-    
     const updatedUser = await User.findByIdAndUpdate(
       id, 
       { $pull: {savedJobs: jobId} }, 
@@ -145,9 +140,9 @@ router.put('/:id/remove-job/:jobId', async(req, res, next) => {
 
 // PUT	/user/:id/remove-event/:eventId	===> remove event from alumni dashboard
 router.put('/:id/remove-event/:eventId', async(req, res, next) => {
+  const { id, eventId } = req.params;
+
   try {
-    const { id, eventId } = req.params;
-    
     const updatedUser = await User.findByIdAndUpdate(
       id, 
       { $pull: {savedEvents: eventId} }, 

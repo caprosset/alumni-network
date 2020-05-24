@@ -37,8 +37,6 @@ router.post(
 
     try {
       const emailExists = await User.findOne({ email }, 'email');
-      // 
-      console.log('emailExists', emailExists)
 
       if (emailExists) return next(createError(400));
       else {
@@ -58,15 +56,15 @@ router.post(
         });
       
         // assign the newly created user to the session current user
+        newUser.password = '*****';
         req.session.currentUser = newUser;
-        req.session.currentUser.password = '*****';
 
         res
           .status(201) // Created
           .json(newUser);
       }
     } catch (error) {
-      next(error);
+      next(createError(error));
     }
   },
 );
@@ -97,7 +95,7 @@ router.post(
         next(createError(401));
       }
     } catch (error) {
-      next(error);
+      next(createError(error));
     }
   },
 );
