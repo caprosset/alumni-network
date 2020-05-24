@@ -41,26 +41,28 @@ router.get('/:id', async (req, res, next) => {
 
 
 // PUT	/user/edit/:id	===> 
-router.put('/edit/:id', async (req, res, next) => {
-  const { id } = req.params;
+router.put('/edit', async (req, res, next) => {
+  const { _id } = req.session.currentUser;
   const { firstName, lastName, phone, image, currentCity, currentRole, currentCompany, linkedinUrl, githubUrl, mediumUrl } = req.body;
   
   try {
     // check if the user being edited corresponds to the user logged in
-    if ( id !== req.session.currentUser._id ) {
-      res.status(401).json({ "message": "Unauthorized id"}); 
-      return;
-    }
+    // if ( id !== req.session.currentUser._id ) {
+    //   res.status(401).json({ "message": "Unauthorized id"}); 
+    //   return;
+    // }
 
     // Check that all required fields are completed
     if (!firstName || !lastName) {
       next(createError(400));
     } else {
       const updatedUser = await User.findByIdAndUpdate(
-        id, 
+        _id, 
         {  firstName, lastName, phone, image, currentCity, currentRole, currentCompany, linkedinUrl, githubUrl, mediumUrl }, 
         { new: true }
       );
+
+      console.log('Updated user in back =>>>>', updatedUser);
   
       req.session.currentUser = updatedUser;
       res.status(200).json(updatedUser);
